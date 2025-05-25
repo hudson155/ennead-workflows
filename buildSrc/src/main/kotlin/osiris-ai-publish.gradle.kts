@@ -16,7 +16,7 @@ publishing {
       }
     }
     create<MavenPublication>("maven") {
-      groupId = "osiris-ai"
+      groupId = "software.airborne.ennead"
       /**
        * Derives the artifact ID from the project path.
        */
