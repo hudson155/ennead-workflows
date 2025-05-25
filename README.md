@@ -10,7 +10,6 @@ Description is coming soon...
 - Kotlin 2.1
 - Java 21
 - Kairo 4.2
-- Langchain4j 1.0
 
 ### Style guide
 
