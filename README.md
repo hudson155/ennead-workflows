@@ -1,6 +1,6 @@
-# Osiris AI
+# Ennead Workflows
 
-Osiris is a Kotlin wrapper for [Langchain](https://github.com/langchain4j/langchain4j).
+Description is coming soon...
 
 ## Project information
 
@@ -24,9 +24,9 @@ See [chores](./docs/chores.md).
 
 1. Familiarize yourself with [semantic versioning](https://semver.org/).
 2. Create a new branch called `release/X.Y.Z`.
-3. Bump the version in [osiris-ai-publish.gradle.kts](./buildSrc/src/main/kotlin/osiris-ai-publish.gradle.kts).
+3. Bump the version in [ennead-workflows-publish.gradle.kts](./buildSrc/src/main/kotlin/ennead-workflows-publish.gradle.kts).
 4. Commit "Release X.Y.Z".
 5. Create and merge a PR "Release X.Y.Z". No description is necessary.
-6. [Draft a new release](https://github.com/hudson155/osiris-ai/releases/new).
+6. [Draft a new release](https://github.com/hudson155/ennead-workflows/releases/new).
    Create a new tag `vX.Y.Z`. Generate release notes.
 7. Manually run `./gradlew publish` on `main` after merging.

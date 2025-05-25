@@ -10,7 +10,7 @@ Review the release notes for any relevant changes.
 - **Gradle:** [gradle-wrapper.properties](../gradle/wrapper/gradle-wrapper.properties).
   Use the command `./gradlew wrapper --gradle-version=<version>` to upgrade.
 - **Kotlin:** [buildSrc/build.gradle.kts](../buildSrc/build.gradle.kts).
-- **Java:** [osiris-ai.gradle.kts](../buildSrc/src/main/kotlin/osiris-ai.gradle.kts).
+- **Java:** [ennead-workflows.gradle.kts](../buildSrc/src/main/kotlin/ennead-workflows.gradle.kts).
   The Java version must correspond with the Kotlin version.
   If it doesn't, you'll get a compilation error.
 - **Detekt:** [buildSrc/build.gradle.kts](../buildSrc/build.gradle.kts).

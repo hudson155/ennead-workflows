@@ -1,5 +1,3 @@
-rootProject.name = "osiris-ai"
+rootProject.name = "ennead-workflows"
 
-include(":core")
-include(":ennead")
-include(":testing")
+include(":ennead-core")
