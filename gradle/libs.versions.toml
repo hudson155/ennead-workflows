@@ -1,6 +1,6 @@
 [versions]
 kairo = "4.2.0" # https://github.com/hudson155/kairo/releases
-osiris = "0.1.0-SNAPSHOT" # https://github.com/hudson155/osiris-ai/releases
+osiris = "0.1.0" # https://github.com/hudson155/osiris-ai/releases
 
 [libraries]
 kairoEnvironmentVariableSupplier = { module = "kairo:kairo-environment-variable-supplier", version.ref = "kairo" }
