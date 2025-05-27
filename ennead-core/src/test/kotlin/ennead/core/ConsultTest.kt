@@ -20,45 +20,45 @@ internal class ConsultTest {
   }
 
   private val exampleAgent: Agent<State> =
-    agent("Example") {
+    agent("example") {
       custom {
         state = state.copy(
-          logs = state.logs + "Example start",
+          logs = state.logs + "example start",
         )
         if (state.sum == null) {
-          consult("Math")
+          consult("math")
         }
         state = state.copy(
           result = state.sum?.let { "The sum is $it." } ?: state.result,
-          logs = state.logs + "Example end",
+          logs = state.logs + "example end",
         )
       }
     }
 
   private val mathAgent: Agent<State> =
-    agent("Math") {
+    agent("math") {
       custom {
         state = state.copy(
-          logs = state.logs + "Math start",
+          logs = state.logs + "math start",
         )
         if (state.sum == null) {
-          consult("Sum")
+          consult("sum")
         }
         state = state.copy(
-          logs = state.logs + "Math end",
+          logs = state.logs + "math end",
         )
       }
     }
 
   private val sumAgent: Agent<State> =
-    agent("Sum") {
+    agent("sum") {
       custom {
         state = state.copy(
-          logs = state.logs + "Sum start",
+          logs = state.logs + "sum start",
         )
         state = state.copy(
           sum = state.inputs.sum(),
-          logs = state.logs + "Sum end",
+          logs = state.logs + "sum end",
         )
       }
     }
@@ -72,22 +72,22 @@ internal class ConsultTest {
 
   @Test
   fun `starts with Example agent`(): Unit = runTest {
-    val result = runner.run(initialState = State(inputs = listOf(1, 2, 3)), initialAgentName = "Example")
+    val result = runner.run(initialState = State(inputs = listOf(1, 2, 3)), initialAgentName = "example")
     val expected = State(
       inputs = listOf(1, 2, 3),
       sum = 6,
       result = "The sum is 6.",
       logs = listOf(
-        "Example start",
-        "Example end",
-        "Math start",
-        "Math end",
-        "Sum start",
-        "Sum end",
-        "Math start",
-        "Math end",
-        "Example start",
-        "Example end",
+        "example start",
+        "example end",
+        "math start",
+        "math end",
+        "sum start",
+        "sum end",
+        "math start",
+        "math end",
+        "example start",
+        "example end",
       ),
     )
     result.shouldBe(expected)
@@ -95,18 +95,18 @@ internal class ConsultTest {
 
   @Test
   fun `starts with Math agent`(): Unit = runTest {
-    val result = runner.run(initialState = State(inputs = listOf(1, 2, 3)), initialAgentName = "Math")
+    val result = runner.run(initialState = State(inputs = listOf(1, 2, 3)), initialAgentName = "math")
     val expected = State(
       inputs = listOf(1, 2, 3),
       sum = 6,
       result = null,
       logs = listOf(
-        "Math start",
-        "Math end",
-        "Sum start",
-        "Sum end",
-        "Math start",
-        "Math end",
+        "math start",
+        "math end",
+        "sum start",
+        "sum end",
+        "math start",
+        "math end",
       ),
     )
     result.shouldBe(expected)
@@ -114,14 +114,14 @@ internal class ConsultTest {
 
   @Test
   fun `starts with Sum agent`(): Unit = runTest {
-    val result = runner.run(initialState = State(inputs = listOf(1, 2, 3)), initialAgentName = "Sum")
+    val result = runner.run(initialState = State(inputs = listOf(1, 2, 3)), initialAgentName = "sum")
     val expected = State(
       inputs = listOf(1, 2, 3),
       sum = 6,
       result = null,
       logs = listOf(
-        "Sum start",
-        "Sum end",
+        "sum start",
+        "sum end",
       ),
     )
     result.shouldBe(expected)

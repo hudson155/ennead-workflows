@@ -6,14 +6,14 @@ import org.junit.jupiter.api.Test
 
 internal class MultiAgentTest {
   private val cowAgent: Agent<String?> =
-    agent("Cow") {
+    agent("cow") {
       custom {
         state = "Moo!"
       }
     }
 
   private val duckAgent: Agent<String?> =
-    agent("Duck") {
+    agent("duck") {
       custom {
         state = "Quack!"
       }
@@ -27,13 +27,13 @@ internal class MultiAgentTest {
 
   @Test
   fun `starts with Cow agent`(): Unit = runTest {
-    val result = runner.run(initialState = null, initialAgentName = "Cow")
+    val result = runner.run(initialState = null, initialAgentName = "cow")
     result.shouldBe("Moo!")
   }
 
   @Test
   fun `starts with Duck agent`(): Unit = runTest {
-    val result = runner.run(initialState = null, initialAgentName = "Duck")
+    val result = runner.run(initialState = null, initialAgentName = "duck")
     result.shouldBe("Quack!")
   }
 }

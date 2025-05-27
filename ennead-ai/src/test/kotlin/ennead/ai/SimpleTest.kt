@@ -12,7 +12,7 @@ import osiris.openAi.openAi
 
 internal class SimpleTest : LlmAgentTest() {
   private val agent: LlmAgent =
-    agent("Simple") {
+    agent("simple") {
       llm {
         model = modelFactory.openAi("gpt-4.1-nano") {
           temperature(0.20)
@@ -28,7 +28,7 @@ internal class SimpleTest : LlmAgentTest() {
 
   @Test
   fun test(): Unit = runTest {
-    val result = runner.run(userMessage = "What's 2+2?", initialAgentName = "Simple")
+    val result = runner.run(userMessage = "What's 2+2?", initialAgentName = "simple")
     val expected = LlmState(
       messages = listOf(
         SystemMessage("Do the math. Return only the answer (nothing else)."),

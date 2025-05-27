@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 
 internal class SingleAgentTest {
   private val agent: Agent<String?> =
-    agent("Trivial") {
+    agent("trivial") {
       custom {
         state = "I'm a trivial agent!"
       }
@@ -19,7 +19,7 @@ internal class SingleAgentTest {
 
   @Test
   fun test(): Unit = runTest {
-    val result = runner.run(initialState = null, initialAgentName = "Trivial")
+    val result = runner.run(initialState = null, initialAgentName = "trivial")
     result.shouldBe("I'm a trivial agent!")
   }
 }

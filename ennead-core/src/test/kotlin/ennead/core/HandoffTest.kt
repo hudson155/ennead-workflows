@@ -18,37 +18,37 @@ internal class HandoffTest {
   }
 
   private val greetingAgent: Agent<State> =
-    agent("Greeting") {
+    agent("greeting") {
       custom {
         state = state.copy(
           result = state.result + "Hi ${state.name}!",
-          logs = state.logs + "Greeting start",
+          logs = state.logs + "greeting start",
         )
-        handoff("Pleasantry")
-        state = state.copy(logs = state.logs + "Greeting end")
+        handoff("pleasantry")
+        state = state.copy(logs = state.logs + "greeting end")
       }
     }
 
   private val pleasantryAgent: Agent<State> =
-    agent("Pleasantry") {
+    agent("pleasantry") {
       custom {
         state = state.copy(
           result = state.result + "I hope you're doing well today.",
-          logs = state.logs + "Pleasantry start",
+          logs = state.logs + "pleasantry start",
         )
-        handoff("Question")
-        state = state.copy(logs = state.logs + "Pleasantry end")
+        handoff("question")
+        state = state.copy(logs = state.logs + "pleasantry end")
       }
     }
 
   private val questionAgent: Agent<State> =
-    agent("Question") {
+    agent("question") {
       custom {
         state = state.copy(
           result = state.result + "Can you help me lift this heavy object?",
-          logs = state.logs + "Question start",
+          logs = state.logs + "question start",
         )
-        state = state.copy(logs = state.logs + "Question end")
+        state = state.copy(logs = state.logs + "question end")
       }
     }
 
@@ -61,17 +61,17 @@ internal class HandoffTest {
 
   @Test
   fun `starts with Greeting agent`(): Unit = runTest {
-    val result = runner.run(initialState = State(name = "Jeff"), initialAgentName = "Greeting")
+    val result = runner.run(initialState = State(name = "Jeff"), initialAgentName = "greeting")
     val expected = State(
       name = "Jeff",
       result = listOf("Hi Jeff!", "I hope you're doing well today.", "Can you help me lift this heavy object?"),
       logs = listOf(
-        "Greeting start",
-        "Greeting end",
-        "Pleasantry start",
-        "Pleasantry end",
-        "Question start",
-        "Question end",
+        "greeting start",
+        "greeting end",
+        "pleasantry start",
+        "pleasantry end",
+        "question start",
+        "question end",
       ),
     )
     result.shouldBe(expected)
@@ -79,15 +79,15 @@ internal class HandoffTest {
 
   @Test
   fun `starts with Pleasantry agent`(): Unit = runTest {
-    val result = runner.run(initialState = State(name = "Jeff"), initialAgentName = "Pleasantry")
+    val result = runner.run(initialState = State(name = "Jeff"), initialAgentName = "pleasantry")
     val expected = State(
       name = "Jeff",
       result = listOf("I hope you're doing well today.", "Can you help me lift this heavy object?"),
       logs = listOf(
-        "Pleasantry start",
-        "Pleasantry end",
-        "Question start",
-        "Question end",
+        "pleasantry start",
+        "pleasantry end",
+        "question start",
+        "question end",
       ),
     )
     result.shouldBe(expected)
@@ -95,13 +95,13 @@ internal class HandoffTest {
 
   @Test
   fun `starts with Question agent`(): Unit = runTest {
-    val result = runner.run(initialState = State(name = "Jeff"), initialAgentName = "Question")
+    val result = runner.run(initialState = State(name = "Jeff"), initialAgentName = "question")
     val expected = State(
       name = "Jeff",
       result = listOf("Can you help me lift this heavy object?"),
       logs = listOf(
-        "Question start",
-        "Question end",
+        "question start",
+        "question end",
       ),
     )
     result.shouldBe(expected)
