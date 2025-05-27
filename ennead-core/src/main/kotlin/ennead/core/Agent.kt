@@ -15,6 +15,7 @@ public class AgentBuilder<State> internal constructor(
 
   public var implementation: AgentImplementation<State>? = null
     set(value) {
+      requireNotNull(value) { "Cannot set implementation to null." }
       require(field == null) { "Implementation has already been set." }
       field = value
     }
