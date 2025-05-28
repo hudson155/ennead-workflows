@@ -4,7 +4,7 @@ import dev.langchain4j.data.message.AiMessage
 import dev.langchain4j.data.message.SystemMessage
 import dev.langchain4j.data.message.UserMessage
 import ennead.core.agent
-import ennead.core.runner
+import ennead.core.network
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
@@ -21,14 +21,14 @@ internal class SimpleTest : LlmAgentTest() {
       }
     }
 
-  private val runner: LlmAgentRunner =
-    runner {
+  private val network: LlmAgentNetwork =
+    network {
       agent(agent)
     }
 
   @Test
   fun test(): Unit = runTest {
-    val result = runner.run(userMessage = "What's 2+2?", initialAgentName = "simple")
+    val result = network.run(userMessage = "What's 2+2?", initialAgentName = "simple")
     val expected = LlmState(
       messages = listOf(
         SystemMessage("Do the math. Return only the answer (nothing else)."),

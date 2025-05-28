@@ -4,6 +4,9 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
+/**
+ * Tests the [handoff] transition.
+ */
 internal class HandoffTest {
   private data class State(
     val name: String,
@@ -52,8 +55,8 @@ internal class HandoffTest {
       }
     }
 
-  private val runner: AgentRunner<State> =
-    runner {
+  private val network: AgentNetwork<State> =
+    network {
       agent(greetingAgent)
       agent(pleasantryAgent)
       agent(questionAgent)
@@ -61,7 +64,7 @@ internal class HandoffTest {
 
   @Test
   fun `starts with Greeting agent`(): Unit = runTest {
-    val result = runner.run(initialState = State(name = "Jeff"), initialAgentName = "greeting")
+    val result = network.run(initialState = State(name = "Jeff"), initialAgentName = "greeting")
     val expected = State(
       name = "Jeff",
       result = listOf("Hi Jeff!", "I hope you're doing well today.", "Can you help me lift this heavy object?"),
@@ -79,7 +82,7 @@ internal class HandoffTest {
 
   @Test
   fun `starts with Pleasantry agent`(): Unit = runTest {
-    val result = runner.run(initialState = State(name = "Jeff"), initialAgentName = "pleasantry")
+    val result = network.run(initialState = State(name = "Jeff"), initialAgentName = "pleasantry")
     val expected = State(
       name = "Jeff",
       result = listOf("I hope you're doing well today.", "Can you help me lift this heavy object?"),
@@ -95,7 +98,7 @@ internal class HandoffTest {
 
   @Test
   fun `starts with Question agent`(): Unit = runTest {
-    val result = runner.run(initialState = State(name = "Jeff"), initialAgentName = "question")
+    val result = network.run(initialState = State(name = "Jeff"), initialAgentName = "question")
     val expected = State(
       name = "Jeff",
       result = listOf("Can you help me lift this heavy object?"),

@@ -4,6 +4,9 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
+/**
+ * Trivial usage test for a multi-agent scenario.
+ */
 internal class MultiAgentTest {
   private val cowAgent: Agent<String?> =
     agent("cow") {
@@ -19,21 +22,21 @@ internal class MultiAgentTest {
       }
     }
 
-  private val runner: AgentRunner<String?> =
-    runner {
+  private val network: AgentNetwork<String?> =
+    network {
       agent(cowAgent)
       agent(duckAgent)
     }
 
   @Test
   fun `starts with Cow agent`(): Unit = runTest {
-    val result = runner.run(initialState = null, initialAgentName = "cow")
+    val result = network.run(initialState = null, initialAgentName = "cow")
     result.shouldBe("Moo!")
   }
 
   @Test
   fun `starts with Duck agent`(): Unit = runTest {
-    val result = runner.run(initialState = null, initialAgentName = "duck")
+    val result = network.run(initialState = null, initialAgentName = "duck")
     result.shouldBe("Quack!")
   }
 }

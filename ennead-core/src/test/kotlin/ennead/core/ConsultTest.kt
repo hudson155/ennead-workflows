@@ -4,6 +4,9 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
+/**
+ * Tests the [consult] transition.
+ */
 internal class ConsultTest {
   private data class State(
     val inputs: List<Int>,
@@ -63,8 +66,8 @@ internal class ConsultTest {
       }
     }
 
-  private val runner: AgentRunner<State> =
-    runner {
+  private val network: AgentNetwork<State> =
+    network {
       agent(exampleAgent)
       agent(mathAgent)
       agent(sumAgent)
@@ -72,7 +75,7 @@ internal class ConsultTest {
 
   @Test
   fun `starts with Example agent`(): Unit = runTest {
-    val result = runner.run(initialState = State(inputs = listOf(1, 2, 3)), initialAgentName = "example")
+    val result = network.run(initialState = State(inputs = listOf(1, 2, 3)), initialAgentName = "example")
     val expected = State(
       inputs = listOf(1, 2, 3),
       sum = 6,
@@ -95,7 +98,7 @@ internal class ConsultTest {
 
   @Test
   fun `starts with Math agent`(): Unit = runTest {
-    val result = runner.run(initialState = State(inputs = listOf(1, 2, 3)), initialAgentName = "math")
+    val result = network.run(initialState = State(inputs = listOf(1, 2, 3)), initialAgentName = "math")
     val expected = State(
       inputs = listOf(1, 2, 3),
       sum = 6,
@@ -114,7 +117,7 @@ internal class ConsultTest {
 
   @Test
   fun `starts with Sum agent`(): Unit = runTest {
-    val result = runner.run(initialState = State(inputs = listOf(1, 2, 3)), initialAgentName = "sum")
+    val result = network.run(initialState = State(inputs = listOf(1, 2, 3)), initialAgentName = "sum")
     val expected = State(
       inputs = listOf(1, 2, 3),
       sum = 6,
