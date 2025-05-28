@@ -11,9 +11,6 @@ internal abstract class LlmAgentTest {
   @OptIn(ProtectedString.Access::class)
   protected val modelFactory: ModelFactory =
     modelFactory {
-      openAiApiKey =
-        requireNotNull(DefaultEnvironmentVariableSupplier["OPEN_AI_API_KEY"]) {
-          "OPEN_AI_API_KEY environment variable must be set."
-        }.let { ProtectedString(it) }
+      openAiApiKey = DefaultEnvironmentVariableSupplier["OPEN_AI_API_KEY"]?.let { ProtectedString(it) }
     }
 }

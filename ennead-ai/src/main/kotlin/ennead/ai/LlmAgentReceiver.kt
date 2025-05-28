@@ -6,32 +6,21 @@ import dev.langchain4j.model.chat.request.ChatRequest
 import ennead.core.AgentBuilder
 import ennead.core.custom
 
-@Suppress("UseDataClass")
 public class LlmAgentReceiver internal constructor() {
   public var model: ChatModel? = null
-    set(value) {
-      requireNotNull(value) { "Cannot set model to null." }
-      require(field == null) { "Model has already been set." }
-      field = value
-    }
-
   public var instructions: String? = null
-    set(value) {
-      requireNotNull(value) { "Cannot set instructions to null." }
-      require(field == null) { "Instructions have already been set." }
-      field = value
-    }
 }
 
 public fun AgentBuilder<LlmState>.llm(block: LlmAgentReceiver.() -> Unit) {
   custom {
-    val receiver = LlmAgentReceiver().apply(block)
+    val receiver = LlmAgentReceiver()
+    receiver.block()
     val model = requireNotNull(receiver.model) { "Model must be provided." }
-    val instructions = requireNotNull(receiver.instructions) { "Instructions must be provided." }
+    val instructions = receiver.instructions
     state = state.copy(
       messages = buildList {
-        add(SystemMessage(instructions))
-        addAll(state.messages.filterNot { it is SystemMessage })
+        instructions?.let { add(SystemMessage(it)) }
+        addAll(state.messages)
       },
     )
     val request = ChatRequest.builder()

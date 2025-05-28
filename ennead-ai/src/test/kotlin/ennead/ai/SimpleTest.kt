@@ -10,6 +10,9 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import osiris.openAi.openAi
 
+/**
+ * Tests an [LlmAgentNetwork] with a single [LlmAgent].
+ */
 internal class SimpleTest : LlmAgentTest() {
   private val agent: LlmAgent =
     agent("simple") {
