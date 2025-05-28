@@ -1,5 +1,6 @@
 package ennead.core
 
-public fun interface AgentImplementation<State> {
-  public suspend fun execute(context: AgentContext<State>): AgentContext<State>
-}
+/**
+ * The implementation for an [Agent]. This typealias makes DSL easier.
+ */
+public typealias AgentImplementation<State> = suspend AgentReceiver<State>.() -> Unit

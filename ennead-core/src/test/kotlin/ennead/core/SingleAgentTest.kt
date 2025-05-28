@@ -4,6 +4,9 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
+/**
+ * Trivial usage test for a single-agent scenario.
+ */
 internal class SingleAgentTest {
   private val agent: Agent<String?> =
     agent("trivial") {
@@ -12,14 +15,14 @@ internal class SingleAgentTest {
       }
     }
 
-  private val runner: AgentRunner<String?> =
-    runner {
+  private val network: AgentNetwork<String?> =
+    network {
       agent(agent)
     }
 
   @Test
   fun test(): Unit = runTest {
-    val result = runner.run(initialState = null, initialAgentName = "trivial")
+    val result = network.run(initialState = null, initialAgentName = "trivial")
     result.shouldBe("I'm a trivial agent!")
   }
 }

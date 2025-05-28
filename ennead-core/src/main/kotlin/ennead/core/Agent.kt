@@ -1,24 +1,32 @@
 package ennead.core
 
+/**
+ * An [Agent] within an [AgentNetwork] just has a [name] and an [implementation].
+ */
 public class Agent<State> internal constructor(
   public val name: String,
   private val implementation: AgentImplementation<State>,
 ) {
-  internal suspend fun execute(context: AgentContext<State>): AgentContext<State> =
-    implementation.execute(context)
+  /**
+   * When executed, the agent transforms the [NetworkContext].
+   */
+  internal suspend operator fun invoke(context: NetworkContext<State>): NetworkContext<State> {
+    val receiver = AgentReceiver(context)
+    receiver.implementation()
+    return context.transform(receiver)
+  }
+
+  private fun NetworkContext<State>.transform(receiver: AgentReceiver<State>): NetworkContext<State> =
+    copy(
+      state = receiver.state,
+      nextAgentNames = receiver.nextAgentNames(nextAgentNames),
+    )
 }
 
 public class AgentBuilder<State> internal constructor(
   private val name: String,
 ) {
-  public var description: String? = null
-
   public var implementation: AgentImplementation<State>? = null
-    set(value) {
-      requireNotNull(value) { "Cannot set implementation to null." }
-      require(field == null) { "Implementation has already been set." }
-      field = value
-    }
 
   internal fun build(): Agent<State> {
     val implementation = requireNotNull(implementation) { "Implementation must be provided." }
