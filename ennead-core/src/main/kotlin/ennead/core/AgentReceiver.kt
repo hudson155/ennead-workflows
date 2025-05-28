@@ -32,7 +32,7 @@ public fun <State> AgentReceiver<State>.handoff(agentName: String) {
 }
 
 /**
- * DSL for handoff-style transitions.
+ * DSL for consultation-style transitions.
  * Control will be passed to the [Agent] with the given [agentName],
  * and then passed back to the current [Agent].
  */
