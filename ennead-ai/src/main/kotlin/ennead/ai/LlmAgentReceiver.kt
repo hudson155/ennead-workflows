@@ -6,6 +6,7 @@ import dev.langchain4j.model.chat.request.ChatRequest
 import ennead.core.AgentBuilder
 import ennead.core.custom
 
+@Suppress("UseDataClass")
 public class LlmAgentReceiver internal constructor() {
   public var model: ChatModel? = null
   public var instructions: String? = null
