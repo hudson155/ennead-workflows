@@ -1,11 +1,7 @@
 package ennead.ai
 
-import dev.langchain4j.data.message.AiMessage
-import dev.langchain4j.data.message.SystemMessage
-import dev.langchain4j.data.message.UserMessage
 import ennead.core.agent
 import ennead.core.network
-import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import osiris.openAi.openAi
@@ -32,13 +28,10 @@ internal class SimpleTest : LlmAgentTest() {
   @Test
   fun test(): Unit = runTest {
     val result = network.run(userMessage = "What's 2+2?", initialAgentName = "simple")
-    val expected = LlmState(
-      messages = listOf(
-        SystemMessage("Do the math. Return only the answer (nothing else)."),
-        UserMessage("What's 2+2?"),
-        AiMessage("4"),
-      ),
-    )
-    result.shouldBe(expected)
+    result.verifyMessages {
+      verifySystemMessage(exactly = "Do the math. Return only the answer (nothing else).")
+      verifyUserMessage(exactly = "What's 2+2?")
+      verifyAiMessage(exactly = "4")
+    }
   }
 }
