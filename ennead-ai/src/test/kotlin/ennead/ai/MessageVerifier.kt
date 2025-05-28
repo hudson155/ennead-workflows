@@ -38,7 +38,7 @@ internal fun LlmState.verifyMessages(block: MessageVerifier.() -> Unit) {
           add("The following messages were not verified:")
           addAll(messages.subList(verifier.verifiers.size, messages.size))
         }
-      }.joinToString(" ")
+      }.joinToString(" "),
     )
   }
 }
