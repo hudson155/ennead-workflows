@@ -5,7 +5,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 /**
- * Tests [handoff].
+ * Tests the [handoff] transition.
  */
 internal class HandoffTest {
   private data class State(

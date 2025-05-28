@@ -5,7 +5,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 /**
- * Tests the [consult] handoff.
+ * Tests the [consult] transition.
  */
 internal class ConsultTest {
   private data class State(
