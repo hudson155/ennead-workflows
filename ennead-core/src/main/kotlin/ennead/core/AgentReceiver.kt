@@ -7,12 +7,10 @@ public class AgentReceiver<State> internal constructor(
   internal val context: NetworkContext<State>,
 ) {
   public var state: State = context.state
-  internal var transition: (MutableList<String>.(nextAgentNames: List<String>) -> Unit)? = null
+  internal var transition: (MutableList<String>.(nextAgentNames: List<String>) -> Unit) = { addAll(it) }
 
-  internal fun nextAgentNames(nextAgentNames: List<String>): List<String> {
-    val transition = transition ?: return nextAgentNames
-    return buildList { transition(nextAgentNames) }
-  }
+  internal fun nextAgentNames(nextAgentNames: List<String>): List<String> =
+    buildList { transition(nextAgentNames) }
 }
 
 /**
