@@ -1,5 +1,9 @@
 package ennead.ai
 
+import ennead.ai.testing.verifyAiMessage
+import ennead.ai.testing.verifyMessages
+import ennead.ai.testing.verifySystemMessage
+import ennead.ai.testing.verifyUserMessage
 import ennead.core.agent
 import ennead.core.network
 import kotlinx.coroutines.test.runTest
@@ -29,9 +33,9 @@ internal class SimpleTest : LlmAgentTest() {
   fun test(): Unit = runTest {
     val result = network.run(userMessage = "What's 2+2?", initialAgentName = "simple")
     result.verifyMessages {
-      verifySystemMessage(exactly = "Do the math. Return only the answer (nothing else).")
-      verifyUserMessage(exactly = "What's 2+2?")
-      verifyAiMessage(exactly = "4")
+      verifyUserMessage("What's 2+2?")
+      verifySystemMessage("Do the math. Return only the answer (nothing else).")
+      verifyAiMessage("4")
     }
   }
 }
