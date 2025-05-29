@@ -1,19 +1,20 @@
 package ennead.ai
 
+import ennead.ai.testing.execution
 import ennead.ai.testing.toolCall
 import ennead.ai.testing.verifyAiMessage
 import ennead.ai.testing.verifyMessages
-import ennead.ai.testing.verifyToolMessage
+import ennead.ai.testing.verifyToolMessages
 import ennead.ai.testing.verifyUserMessage
 import ennead.core.agent
 import ennead.core.network
-import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.fail
 import osiris.core.schema.OsirisSchema
 import osiris.openAi.openAi
 
-internal class FunctionCallTest : LlmAgentTest() {
+internal class FunctionCallsTest : LlmAgentTest() {
   internal object WeatherTool : LlmTool<WeatherTool.Input, WeatherTool.Output>("weather") {
     data class Input(
       @OsirisSchema.Type("string")
@@ -28,13 +29,18 @@ internal class FunctionCallTest : LlmAgentTest() {
       val conditions: String,
     )
 
-    override suspend fun invoke(input: Input): Output {
-      input.shouldBe(Input("Edmonton"))
-      return Output(
-        temperature = "-30 degrees Celsius",
-        conditions = "Snowing",
-      )
-    }
+    override suspend fun invoke(input: Input): Output =
+      when (val location = input.location) {
+        "Calgary" -> Output(
+          temperature = "15 degrees Celsius",
+          conditions = "Sunny",
+        )
+        "Edmonton" -> Output(
+          temperature = "-30 degrees Celsius",
+          conditions = "Snowing",
+        )
+        else -> fail("Unknown location: $location.")
+      }
   }
 
   private val weatherService: LlmAgent =
@@ -54,13 +60,20 @@ internal class FunctionCallTest : LlmAgentTest() {
 
   @Test
   fun test(): Unit = runTest {
-    val result = network.run(userMessage = "What's the weather in Edmonton?", initialAgentName = "weather_service")
+    val result = network.run(
+      userMessage = "What's the weather in Calgary and Edmonton?",
+      initialAgentName = "weather_service"
+    )
     result.verifyMessages {
-      verifyUserMessage("What's the weather in Edmonton?")
+      verifyUserMessage("What's the weather in Calgary and Edmonton?")
       verifyAiMessage {
+        toolCall("weather", WeatherTool.Input("Calgary"))
         toolCall("weather", WeatherTool.Input("Edmonton"))
       }
-      verifyToolMessage("weather", WeatherTool.Output(temperature = "-30 degrees Celsius", conditions = "Snowing"))
+      verifyToolMessages {
+        execution("weather", WeatherTool.Output(temperature = "15 degrees Celsius", conditions = "Sunny"))
+        execution("weather", WeatherTool.Output(temperature = "-30 degrees Celsius", conditions = "Snowing"))
+      }
     }
   }
 }

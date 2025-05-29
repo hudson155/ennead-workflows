@@ -45,7 +45,7 @@ public class AgentNetworkBuilder<State> internal constructor() {
     AgentNetworkSafetyCriteriaBuilder()
 
   public fun agent(agent: Agent<State>) {
-    require(agents[agent.name] == null) { "Duplicate agent with name: ${agent.name}." }
+    require(agent.name !in agents) { "Duplicate agent with name: ${agent.name}." }
     agents[agent.name] = agent
   }
 
