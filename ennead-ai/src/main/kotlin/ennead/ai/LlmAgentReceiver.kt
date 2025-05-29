@@ -41,9 +41,10 @@ public fun AgentBuilder<LlmState>.llm(block: LlmAgentReceiver.() -> Unit) {
     state = state.copy(messages = state.messages + aiMessage)
     if (aiMessage.hasToolExecutionRequests()) {
       aiMessage.toolExecutionRequests().forEach { execution ->
-        val tool = receiver.tools[execution.name()]!!
+        val toolName = execution.name()
+        val tool = checkNotNull(receiver.tools[toolName]) { "No agent with name: $toolName." }
         val output = tool(execution.arguments())
-        val executionMessage = ToolExecutionResultMessage(execution.id(), execution.name(), output)
+        val executionMessage = ToolExecutionResultMessage(execution.id(), toolName, output)
         state = state.copy(messages = state.messages + executionMessage)
       }
     }
