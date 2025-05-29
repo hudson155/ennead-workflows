@@ -4,11 +4,15 @@ plugins {
 }
 
 dependencies {
-  implementation(project(":ennead-core"))
+  implementation(project(":ennead-core")) // Peer dependency.
 
-  implementation(libs.osirisCore)
-  implementation(libs.osirisOpenAi)
+  implementation(libs.kairoReflect)
+  implementation(libs.kairoSerialization)
+  api(libs.osirisCore)
+
+  testImplementation(project(":ennead-ai:testing"))
 
   testImplementation(libs.kairoEnvironmentVariableSupplier)
   testImplementation(libs.kairoTesting)
+  testImplementation(libs.osirisOpenAi)
 }
