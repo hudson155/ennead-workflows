@@ -33,8 +33,8 @@ internal class SimpleTest : LlmAgentTest() {
   fun test(): Unit = runTest {
     val result = network.run(userMessage = "What's 2+2?", initialAgentName = "simple")
     result.verifyMessages {
-      verifySystemMessage("Do the math. Return only the answer (nothing else).")
       verifyUserMessage("What's 2+2?")
+      verifySystemMessage("Do the math. Return only the answer (nothing else).")
       verifyAiMessage("4")
     }
   }
