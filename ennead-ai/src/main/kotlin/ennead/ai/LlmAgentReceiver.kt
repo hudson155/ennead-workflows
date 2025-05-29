@@ -40,6 +40,7 @@ public fun AgentBuilder<LlmState>.llm(block: LlmAgentReceiver.() -> Unit) {
     val aiMessage = response.aiMessage()
     state = state.copy(messages = state.messages + aiMessage)
     if (aiMessage.hasToolExecutionRequests()) {
+      // TODO: Parallelize tool calls.
       aiMessage.toolExecutionRequests().forEach { execution ->
         val toolName = execution.name()
         val tool = checkNotNull(receiver.tools[toolName]) { "No agent with name: $toolName." }
