@@ -26,9 +26,7 @@ public fun LlmState.verifyMessages(block: MessagesVerifier.() -> Unit) {
   val verifier = MessagesVerifier()
   verifier.block()
   val messageIterator = messages.iterator()
-  verifier.verifiers.forEach { verifier ->
-    verifier(messageIterator)
-  }
+  verifier.verifiers.forEach { it(messageIterator) }
   if (messageIterator.hasNext()) {
     fail(
       buildList {
@@ -36,7 +34,7 @@ public fun LlmState.verifyMessages(block: MessagesVerifier.() -> Unit) {
         add("All previous messages matched.")
         add("The following messages were not verified:")
         addAll(messages.subList(verifier.verifiers.size, messages.size))
-      }.joinToString(" ")
+      }.joinToString(" "),
     )
   }
 }
@@ -97,8 +95,8 @@ public fun MessagesVerifier.verifyToolMessages(block: ToolExecutionReceiver.() -
 
 private inline fun <reified T : ChatMessage> verifySingleMessage(
   crossinline block: (message: T) -> Unit,
-): MessageVerifier {
-  return { messageIterator ->
+): MessageVerifier =
+  { messageIterator ->
     withClue("Expected another message, but there was none.") {
       messageIterator.hasNext().shouldBeTrue()
     }
@@ -106,4 +104,3 @@ private inline fun <reified T : ChatMessage> verifySingleMessage(
     message.shouldBeInstanceOf<T>()
     block(message)
   }
-}

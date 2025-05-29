@@ -62,7 +62,7 @@ internal class FunctionCallsTest : LlmAgentTest() {
   fun test(): Unit = runTest {
     val result = network.run(
       userMessage = "What's the weather in Calgary and Edmonton?",
-      initialAgentName = "weather_service"
+      initialAgentName = "weather_service",
     )
     result.verifyMessages {
       verifyUserMessage("What's the weather in Calgary and Edmonton?")
