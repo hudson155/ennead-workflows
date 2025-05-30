@@ -1,11 +1,11 @@
 [versions]
-kairo = "4.2.0" # https://github.com/hudson155/kairo/releases
-osiris = "0.1.0" # https://github.com/hudson155/osiris-ai/releases
+kairo = "5.1.0" # https://github.com/hudson155/kairo/releases
+osiris = "0.2.0" # https://github.com/hudson155/osiris-ai/releases
 
 [libraries]
-kairoEnvironmentVariableSupplier = { module = "kairo:kairo-environment-variable-supplier", version.ref = "kairo" }
-kairoReflect = { module = "kairo:kairo-reflect", version.ref = "kairo" }
-kairoSerialization = { module = "kairo:kairo-serialization", version.ref = "kairo" }
-kairoTesting = { module = "kairo:kairo-testing", version.ref = "kairo" }
+kairoEnvironmentVariableSupplier = { module = "software.airborne.kairo:kairo-environment-variable-supplier", version.ref = "kairo" }
+kairoReflect = { module = "software.airborne.kairo:kairo-reflect", version.ref = "kairo" }
+kairoSerialization = { module = "software.airborne.kairo:kairo-serialization", version.ref = "kairo" }
+kairoTesting = { module = "software.airborne.kairo:kairo-testing", version.ref = "kairo" }
 osirisCore = { module = "software.airborne.osiris:osiris-core", version.ref = "osiris" }
 osirisOpenAi = { module = "software.airborne.osiris:osiris-open-ai", version.ref = "osiris" }
