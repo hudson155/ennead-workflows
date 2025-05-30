@@ -5,7 +5,7 @@ import kairo.reflect.KairoType
 import kairo.serialization.typeReference
 import kairo.serialization.util.kairoWrite
 import osiris.core.osirisMapper
-import osiris.core.responseConverter.osirisSchema
+import osiris.schema.osirisSchema
 
 public abstract class LlmTool<Input : Any, Output : Any>(
   public val name: String,
