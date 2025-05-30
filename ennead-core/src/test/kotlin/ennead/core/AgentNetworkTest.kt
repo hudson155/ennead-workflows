@@ -12,14 +12,14 @@ import org.junit.jupiter.api.Test
  */
 internal class AgentNetworkTest {
   @Test
-  fun `build network, trivial case`() {
+  fun `build network, trivial case`(): Unit = runTest {
     shouldNotThrowAny {
       network<Nothing> { }
     }
   }
 
   @Test
-  fun `build network, happy path`() {
+  fun `build network, happy path`(): Unit = runTest {
     val first = agent<Nothing>("first") {
       custom { }
     }
@@ -35,7 +35,7 @@ internal class AgentNetworkTest {
   }
 
   @Test
-  fun `build network, duplicate name`() {
+  fun `build network, duplicate name`(): Unit = runTest {
     val first = agent<Nothing>("same_name") {
       custom { }
     }
