@@ -11,11 +11,12 @@ import ennead.core.network
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
+import osiris.core.OsirisTool
 import osiris.openAi.openAi
 import osiris.schema.OsirisSchema
 
 internal class FunctionCallsTest : LlmAgentTest() {
-  internal object WeatherTool : LlmTool<WeatherTool.Input, WeatherTool.Output>("weather") {
+  internal object WeatherTool : OsirisTool<WeatherTool.Input, WeatherTool.Output>("weather") {
     data class Input(
       @OsirisSchema.Description("The city to get the weather for. Only the city name.")
       val location: String,

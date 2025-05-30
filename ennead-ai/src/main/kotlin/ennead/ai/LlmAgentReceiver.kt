@@ -1,18 +1,19 @@
 package ennead.ai
 
 import dev.langchain4j.data.message.SystemMessage
-import dev.langchain4j.data.message.ToolExecutionResultMessage
 import dev.langchain4j.model.chat.ChatModel
-import dev.langchain4j.model.chat.request.ChatRequest
 import ennead.core.AgentBuilder
 import ennead.core.custom
+import osiris.core.OsirisEvent
+import osiris.core.OsirisTool
+import osiris.core.osiris
 
 public class LlmAgentReceiver internal constructor() {
   public var model: ChatModel? = null
   public var instructions: String? = null
-  internal val tools: MutableMap<String, LlmTool<*, *>> = mutableMapOf()
+  internal val tools: MutableMap<String, OsirisTool<*, *>> = mutableMapOf()
 
-  public fun tool(tool: LlmTool<*, *>) {
+  public fun tool(tool: OsirisTool<*, *>) {
     require(tool.name !in tools) { "Duplicate tool with name: ${tool.name}." }
     tools[tool.name] = tool
   }
@@ -30,23 +31,16 @@ public fun AgentBuilder<LlmState>.llm(block: LlmAgentReceiver.() -> Unit) {
         if (instructions != null) add(SystemMessage(instructions))
       },
     )
-    val request = ChatRequest.builder().apply {
-      messages(state.messages)
-      if (receiver.tools.isNotEmpty()) {
-        toolSpecifications(receiver.tools.map { it.value.toolSpecification })
-      }
-    }.build()
-    val response = model.chat(request)
-    val aiMessage = response.aiMessage()
-    state = state.copy(messages = state.messages + aiMessage)
-    if (aiMessage.hasToolExecutionRequests()) {
-      // TODO: Parallelize tool calls.
-      aiMessage.toolExecutionRequests().forEach { execution ->
-        val toolName = execution.name()
-        val tool = checkNotNull(receiver.tools[toolName]) { "No agent with name: $toolName." }
-        val output = tool(execution.arguments())
-        val executionMessage = ToolExecutionResultMessage(execution.id(), toolName, output)
-        state = state.copy(messages = state.messages + executionMessage)
+    val response = osiris(
+      model = model,
+      messages = state.messages,
+      tools = receiver.tools,
+    )
+    response.collect { event ->
+      when (event) {
+        is OsirisEvent.Message -> {
+          state = state.copy(messages = state.messages + event.message)
+        }
       }
     }
   }
