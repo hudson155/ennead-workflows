@@ -6,6 +6,7 @@ plugins {
 dependencies {
   implementation(project(":ennead-core")) // Peer dependency.
 
+  implementation(libs.kairoCoroutines)
   implementation(libs.kairoReflect)
   implementation(libs.kairoSerialization)
   api(libs.osirisCore)
